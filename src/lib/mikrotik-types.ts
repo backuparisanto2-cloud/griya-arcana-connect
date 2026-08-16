@@ -53,14 +53,19 @@ export function formatBytes(bytes: number): string {
   return `${(bytes / Math.pow(1024, i)).toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
 }
 
+const UPTIME_UNITS: Record<string, string> = {
+  w: "mgg",
+  d: "hari",
+  h: "jam",
+  m: "mnt",
+  s: "dtk",
+};
+
 export function formatUptime(uptime: string): string {
   if (!uptime) return "-";
-  return uptime
-    .replace("w", " minggu ")
-    .replace("d", " hari ")
-    .replace("h", " jam ")
-    .replace("m", " menit ")
-    .replace("s", " detik")
-    .replace(/\s+/g, " ")
-    .trim();
+  const parts = [...uptime.matchAll(/(\d+)([wdhms])/g)].map(
+    (m) => `${m[1]} ${UPTIME_UNITS[m[2] as string] ?? m[2]}`,
+  );
+  if (parts.length === 0) return uptime;
+  return parts.slice(0, 3).join(" ");
 }
