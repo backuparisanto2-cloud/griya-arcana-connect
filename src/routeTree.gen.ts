@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GraphRouteImport } from './routes/graph'
 import { Route as HotspotRouteImport } from './routes/hotspot'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GraphRoute = GraphRouteImport.update({
@@ -31,30 +37,34 @@ const HotspotRoute = HotspotRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/graph': typeof GraphRoute
   '/hotspot': typeof HotspotRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/graph': typeof GraphRoute
   '/hotspot': typeof HotspotRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/graph': typeof GraphRoute
   '/hotspot': typeof HotspotRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/graph' | '/hotspot'
+  fullPaths: '/' | '/auth' | '/graph' | '/hotspot'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/graph' | '/hotspot'
-  id: '__root__' | '/' | '/graph' | '/hotspot'
+  to: '/' | '/auth' | '/graph' | '/hotspot'
+  id: '__root__' | '/' | '/auth' | '/graph' | '/hotspot'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   GraphRoute: typeof GraphRoute
   HotspotRoute: typeof HotspotRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/graph': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   GraphRoute: GraphRoute,
   HotspotRoute: HotspotRoute,
 }
