@@ -53,36 +53,8 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-10 border-b border-border/70 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <div className="flex items-center gap-3">
-            <img
-              src={logo}
-              alt="Logo Griya Arca Putri"
-              width={205}
-              height={164}
-              className="h-10 w-auto rounded-md object-contain shadow-sm sm:h-12"
-            />
+      <SiteHeader onRefresh={() => void refetch()} isFetching={isFetching} />
 
-            <div>
-              <h1 className="font-display text-base leading-tight font-semibold sm:text-lg">
-                Griya <span className="text-gradient-brand">Arca Putri</span>
-              </h1>
-              <p className="text-[11px] text-muted-foreground sm:text-xs">
-                Monitor Jaringan &amp; Perangkat
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => void refetch()}
-            disabled={isFetching}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-secondary disabled:opacity-60 sm:text-sm"
-          >
-            <RefreshCw className={`h-4 w-4 ${isFetching ? "animate-spin" : ""}`} />
-            <span className="hidden sm:inline">Uji Koneksi</span>
-          </button>
-        </div>
-      </header>
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
         <section
