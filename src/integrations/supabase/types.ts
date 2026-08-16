@@ -14,7 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      devices: {
+        Row: {
+          created_at: string
+          device_type: string
+          id: string
+          ip_address: string | null
+          location: string | null
+          mac_address: string | null
+          name: string
+          notes: string | null
+          password: string | null
+          ssid: string | null
+          updated_at: string
+          username: string | null
+          wifi_password: string | null
+        }
+        Insert: {
+          created_at?: string
+          device_type?: string
+          id?: string
+          ip_address?: string | null
+          location?: string | null
+          mac_address?: string | null
+          name: string
+          notes?: string | null
+          password?: string | null
+          ssid?: string | null
+          updated_at?: string
+          username?: string | null
+          wifi_password?: string | null
+        }
+        Update: {
+          created_at?: string
+          device_type?: string
+          id?: string
+          ip_address?: string | null
+          location?: string | null
+          mac_address?: string | null
+          name?: string
+          notes?: string | null
+          password?: string | null
+          ssid?: string | null
+          updated_at?: string
+          username?: string | null
+          wifi_password?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
