@@ -5,7 +5,7 @@ export type RouterInterface = {
   disabled: boolean;
   rxBytes: number;
   txBytes: number;
-  comment?: string;
+  comment?: string | undefined;
 };
 
 export type RouterSystem = {
