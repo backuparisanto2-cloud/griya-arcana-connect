@@ -7,17 +7,17 @@ import {
   HardDrive,
   MemoryStick,
   Network,
-  RefreshCw,
   Router as RouterIcon,
   ShieldCheck,
   Timer,
   TriangleAlert,
 } from "lucide-react";
 
-import logo from "../assets/logo.png";
+import { SiteHeader } from "../components/SiteHeader";
 import { StatCard, UsageBar } from "../components/StatCard";
 import { getRouterStatus } from "../lib/mikrotik.functions";
 import { formatBytes, formatUptime } from "../lib/mikrotik-types";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
