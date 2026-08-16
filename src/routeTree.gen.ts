@@ -10,13 +10,19 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GraphRouteImport } from './routes/graph'
 import { Route as HotspotRouteImport } from './routes/hotspot'
+import { Route as AuthenticatedPerangkatRouteImport } from './routes/_authenticated/perangkat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -34,36 +40,53 @@ const HotspotRoute = HotspotRouteImport.update({
   path: '/hotspot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPerangkatRoute = AuthenticatedPerangkatRouteImport.update({
+  id: '/perangkat',
+  path: '/perangkat',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/graph': typeof GraphRoute
   '/hotspot': typeof HotspotRoute
+  '/perangkat': typeof AuthenticatedPerangkatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/graph': typeof GraphRoute
   '/hotspot': typeof HotspotRoute
+  '/perangkat': typeof AuthenticatedPerangkatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/graph': typeof GraphRoute
   '/hotspot': typeof HotspotRoute
+  '/_authenticated/perangkat': typeof AuthenticatedPerangkatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/graph' | '/hotspot'
+  fullPaths: '/' | '/auth' | '/graph' | '/hotspot' | '/perangkat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/graph' | '/hotspot'
-  id: '__root__' | '/' | '/auth' | '/graph' | '/hotspot'
+  to: '/' | '/auth' | '/graph' | '/hotspot' | '/perangkat'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/graph'
+    | '/hotspot'
+    | '/_authenticated/perangkat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   GraphRoute: typeof GraphRoute
   HotspotRoute: typeof HotspotRoute
@@ -76,6 +99,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -99,11 +129,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HotspotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/perangkat': {
+      id: '/_authenticated/perangkat'
+      path: '/perangkat'
+      fullPath: '/perangkat'
+      preLoaderRoute: typeof AuthenticatedPerangkatRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedPerangkatRoute: typeof AuthenticatedPerangkatRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedPerangkatRoute: AuthenticatedPerangkatRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   GraphRoute: GraphRoute,
   HotspotRoute: HotspotRoute,
