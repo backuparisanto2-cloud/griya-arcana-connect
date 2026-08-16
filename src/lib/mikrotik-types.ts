@@ -69,3 +69,43 @@ export function formatUptime(uptime: string): string {
   if (parts.length === 0) return uptime;
   return parts.slice(0, 3).join(" ");
 }
+
+export type HotspotUser = {
+  name: string;
+  profile: string;
+  disabled: boolean;
+  online: boolean;
+  comment?: string | undefined;
+  /** Total akumulasi pemakaian akun (dari router). */
+  totalBytesIn: number;
+  totalBytesOut: number;
+  totalUptime: string;
+  /** Data sesi aktif, hanya ada bila online. */
+  address?: string | undefined;
+  macAddress?: string | undefined;
+  sessionUptime?: string | undefined;
+  idleTime?: string | undefined;
+  server?: string | undefined;
+  sessionBytesIn?: number | undefined;
+  sessionBytesOut?: number | undefined;
+};
+
+export type HotspotDataOk = {
+  ok: true;
+  checkedAt: string;
+  latencyMs: number;
+  users: HotspotUser[];
+  activeCount: number;
+  offlineCount: number;
+};
+
+export type HotspotDataError = {
+  ok: false;
+  checkedAt: string;
+  latencyMs: number;
+  error: string;
+  /** true bila router tidak memiliki layanan hotspot / user API tidak berhak. */
+  unavailable?: boolean;
+};
+
+export type HotspotData = HotspotDataOk | HotspotDataError;
