@@ -59,10 +59,11 @@ function Dashboard() {
             <img
               src={logo}
               alt="Logo Griya Arca Putri"
-              width={40}
-              height={40}
-              className="h-9 w-9 sm:h-10 sm:w-10"
+              width={205}
+              height={164}
+              className="h-10 w-auto rounded-md object-contain shadow-sm sm:h-12"
             />
+
             <div>
               <h1 className="font-display text-base leading-tight font-semibold sm:text-lg">
                 Griya <span className="text-gradient-brand">Arca Putri</span>
